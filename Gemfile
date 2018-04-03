@@ -33,7 +33,11 @@ gem 'sidekiq-failures', '~> 0.4.5' #see failed sidekiq jobs
 gem "nokogiri"
 gem "htmlentities"
 gem 'truncate_html', '~> 0.9.3'
-
+gem 'devise'
+gem 'cancancan'
+gem 'draper'
+gem 'pundit'
+gem 'active_admin_role'
 #css for emails
 gem 'premailer-rails', '~> 1.9', '>= 1.9.5' # to style emails
 #gem 'premailer', '~> 1.10', '>= 1.10.2' #to styling email

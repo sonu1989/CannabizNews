@@ -11,7 +11,60 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180306175519) do
+ActiveRecord::Schema.define(version: 20180403140402) do
+
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
+  create_table "active_admin_comments", force: :cascade do |t|
+    t.string   "namespace"
+    t.text     "body"
+    t.integer  "resource_id"
+    t.string   "resource_type"
+    t.integer  "author_id"
+    t.string   "author_type"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
+
+  add_index "active_admin_comments", ["author_type", "author_id"], name: "index_active_admin_comments_on_author_type_and_author_id", using: :btree
+  add_index "active_admin_comments", ["namespace"], name: "index_active_admin_comments_on_namespace", using: :btree
+  add_index "active_admin_comments", ["resource_type", "resource_id"], name: "index_active_admin_comments_on_resource_type_and_resource_id", using: :btree
+
+  create_table "active_admin_managed_resources", force: :cascade do |t|
+    t.string "class_name", null: false
+    t.string "action",     null: false
+    t.string "name"
+  end
+
+  add_index "active_admin_managed_resources", ["class_name", "action", "name"], name: "active_admin_managed_resources_index", unique: true, using: :btree
+
+  create_table "active_admin_permissions", force: :cascade do |t|
+    t.integer "managed_resource_id",                       null: false
+    t.integer "role",                limit: 2, default: 0, null: false
+    t.integer "state",               limit: 2, default: 0, null: false
+  end
+
+  add_index "active_admin_permissions", ["managed_resource_id", "role"], name: "active_admin_permissions_index", unique: true, using: :btree
+
+  create_table "admin_users", force: :cascade do |t|
+    t.string   "email",                            default: "", null: false
+    t.string   "encrypted_password",               default: "", null: false
+    t.string   "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.integer  "sign_in_count",                    default: 0,  null: false
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.inet     "current_sign_in_ip"
+    t.inet     "last_sign_in_ip"
+    t.datetime "created_at",                                    null: false
+    t.datetime "updated_at",                                    null: false
+    t.integer  "role",                   limit: 2, default: 0,  null: false
+  end
+
+  add_index "admin_users", ["email"], name: "index_admin_users_on_email", unique: true, using: :btree
+  add_index "admin_users", ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true, using: :btree
 
   create_table "article_categories", force: :cascade do |t|
     t.integer  "article_id"
@@ -44,7 +97,7 @@ ActiveRecord::Schema.define(version: 20180306175519) do
     t.string   "slug"
   end
 
-  add_index "articles", ["slug"], name: "index_articles_on_slug", unique: true
+  add_index "articles", ["slug"], name: "index_articles_on_slug", unique: true, using: :btree
 
   create_table "average_prices", force: :cascade do |t|
     t.integer  "product_id"
@@ -66,7 +119,7 @@ ActiveRecord::Schema.define(version: 20180306175519) do
     t.string   "category_type"
   end
 
-  add_index "categories", ["slug"], name: "index_categories_on_slug", unique: true
+  add_index "categories", ["slug"], name: "index_categories_on_slug", unique: true, using: :btree
 
   create_table "digest_emails", force: :cascade do |t|
     t.string  "email"
@@ -87,7 +140,7 @@ ActiveRecord::Schema.define(version: 20180306175519) do
     t.datetime "updated_at"
   end
 
-  add_index "dispensaries", ["slug"], name: "index_dispensaries_on_slug", unique: true
+  add_index "dispensaries", ["slug"], name: "index_dispensaries_on_slug", unique: true, using: :btree
 
   create_table "dispensary_source_products", force: :cascade do |t|
     t.integer  "dispensary_source_id"
@@ -159,7 +212,7 @@ ActiveRecord::Schema.define(version: 20180306175519) do
     t.datetime "updated_at"
   end
 
-  add_index "dispensary_sources", ["slug"], name: "index_dispensary_sources_on_slug", unique: true
+  add_index "dispensary_sources", ["slug"], name: "index_dispensary_sources_on_slug", unique: true, using: :btree
 
   create_table "dsp_prices", force: :cascade do |t|
     t.integer "dispensary_source_product_id"
@@ -171,6 +224,17 @@ ActiveRecord::Schema.define(version: 20180306175519) do
   create_table "hashtags", force: :cascade do |t|
     t.string "name"
   end
+
+  create_table "product_stores", force: :cascade do |t|
+    t.integer  "product_id"
+    t.integer  "store_id"
+    t.decimal  "price"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "product_stores", ["product_id"], name: "index_product_stores_on_product_id", using: :btree
+  add_index "product_stores", ["store_id"], name: "index_product_stores_on_store_id", using: :btree
 
   create_table "products", force: :cascade do |t|
     t.string   "name"
@@ -197,7 +261,7 @@ ActiveRecord::Schema.define(version: 20180306175519) do
     t.integer  "dsp_count"
   end
 
-  add_index "products", ["slug"], name: "index_products_on_slug", unique: true
+  add_index "products", ["slug"], name: "index_products_on_slug", unique: true, using: :btree
 
   create_table "source_hashtags", force: :cascade do |t|
     t.integer "source_id"
@@ -218,7 +282,7 @@ ActiveRecord::Schema.define(version: 20180306175519) do
     t.string   "source_type"
   end
 
-  add_index "sources", ["slug"], name: "index_sources_on_slug", unique: true
+  add_index "sources", ["slug"], name: "index_sources_on_slug", unique: true, using: :btree
 
   create_table "states", force: :cascade do |t|
     t.string   "name"
@@ -231,7 +295,14 @@ ActiveRecord::Schema.define(version: 20180306175519) do
     t.boolean  "product_state"
   end
 
-  add_index "states", ["slug"], name: "index_states_on_slug", unique: true
+  add_index "states", ["slug"], name: "index_states_on_slug", unique: true, using: :btree
+
+  create_table "stores", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "admin_user_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
 
   create_table "user_articles", force: :cascade do |t|
     t.integer  "article_id"
@@ -275,8 +346,8 @@ ActiveRecord::Schema.define(version: 20180306175519) do
     t.string   "password_reset_token"
   end
 
-  add_index "users", ["password_reset_token"], name: "index_users_on_password_reset_token"
-  add_index "users", ["slug"], name: "index_users_on_slug", unique: true
+  add_index "users", ["password_reset_token"], name: "index_users_on_password_reset_token", using: :btree
+  add_index "users", ["slug"], name: "index_users_on_slug", unique: true, using: :btree
 
   create_table "vendor_products", force: :cascade do |t|
     t.integer  "vendor_id"
@@ -294,6 +365,8 @@ ActiveRecord::Schema.define(version: 20180306175519) do
     t.datetime "updated_at"
     t.string   "image"
     t.integer  "state_id"
+    t.float    "longitude"
+    t.float    "latitude"
     t.integer  "tier"
     t.string   "vendor_type"
     t.string   "address"
@@ -304,10 +377,8 @@ ActiveRecord::Schema.define(version: 20180306175519) do
     t.string   "month_inc"
     t.integer  "year_inc"
     t.integer  "month_inc_num"
-    t.float    "longitude"
-    t.float    "latitude"
   end
 
-  add_index "vendors", ["slug"], name: "index_vendors_on_slug", unique: true
+  add_index "vendors", ["slug"], name: "index_vendors_on_slug", unique: true, using: :btree
 
 end

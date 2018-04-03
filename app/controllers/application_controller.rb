@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   
   #set lists before all actions
-  before_action :populate_lists
+  before_action :populate_lists, :skip_for_admin?
   
   helper_method :current_user, :logged_in?
   
@@ -14,6 +14,10 @@ class ApplicationController < ActionController::Base
   
   def logged_in?
     !!current_user
+  end
+
+  def skip_for_admin?
+    current_admin_user.blank?
   end
   
   def require_user

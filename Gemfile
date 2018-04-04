@@ -33,6 +33,7 @@ gem 'sidekiq-failures', '~> 0.4.5' #see failed sidekiq jobs
 gem "nokogiri"
 gem "htmlentities"
 gem 'truncate_html', '~> 0.9.3'
+gem 'activeadmin'
 gem 'devise'
 gem 'cancancan'
 gem 'draper'

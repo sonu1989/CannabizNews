@@ -6,7 +6,12 @@ class AdminUser < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
   
   has_one :store
+  
   def seller_user?
     self.role == 'seller'
+  end
+
+  def admin?
+    self.role == 'admin'
   end         
 end

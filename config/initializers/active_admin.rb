@@ -290,4 +290,13 @@ ActiveAdmin.setup do |config|
   # You can inherit it with own class and inject it for all resources
   #
   # config.order_clause = MyOrderClause
+  config.namespace :admin do |admin|
+    admin.build_menu :utility_navigation do |menu|
+      menu.add  :label  => 'Settings', # text of your link
+        :url            => proc{ edit_admin_admin_user_path(current_admin_user) }, # route of your link
+        :html_options   => {:style => 'float:left;'}, # attributes added in the DOM of your link
+        :if             => proc{ 1 < 2 } # condition to display the link
+      admin.add_logout_button_to_menu menu, 100, :style => 'float:left;' # logout link
+    end
+  end
 end

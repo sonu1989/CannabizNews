@@ -8,11 +8,10 @@ class Ability
       can :manage, :all
     elsif user.seller_user?
       can :manage, Store
-    else
-      register_role_based_abilities(user)
+      can :manage, AdminUser
     end
 
     # NOTE: Everyone can read the page of Permission Deny
-    #can :read, ActiveAdmin::Page, name: "Dashboard"
+    can :read, ActiveAdmin::Page, name: "Dashboard"
   end
 end

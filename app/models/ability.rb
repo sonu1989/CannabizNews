@@ -7,7 +7,7 @@ class Ability
     if user.super_user?
       can :manage, :all
     elsif user.seller_user?
-      can :manage, Store
+      can :manage, Store, :admin_user_id => user.id
       can :manage, AdminUser
     end
 

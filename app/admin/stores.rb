@@ -1,6 +1,8 @@
 ActiveAdmin.register Store do
   permit_params :name, :admin_user_id
-
+  
+  actions :all, :except => [:new, :destroy], :if => proc{ current_admin_user.seller_user? }
+  
   index do
     column :name
     column :admin_user_id

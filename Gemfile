@@ -36,8 +36,6 @@ gem 'truncate_html', '~> 0.9.3'
 gem 'activeadmin'
 gem 'devise'
 gem 'cancancan'
-gem 'draper'
-gem 'pundit'
 gem 'active_admin_role'
 #css for emails
 gem 'premailer-rails', '~> 1.9', '>= 1.9.5' # to style emails

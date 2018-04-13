@@ -121,11 +121,6 @@ GEM
     diff-lcs (1.3)
     domain_name (0.5.20170223)
       unf (>= 0.0.5, < 1.0.0)
-    draper (2.1.0)
-      actionpack (>= 3.0)
-      activemodel (>= 3.0)
-      activesupport (>= 3.0)
-      request_store (~> 1.0)
     equalizer (0.0.11)
     erubis (2.7.0)
     et-orbi (1.0.4)
@@ -383,8 +378,6 @@ GEM
       actionmailer (>= 3, < 6)
       premailer (~> 1.7, >= 1.7.9)
     public_suffix (2.0.5)
-    pundit (1.1.0)
-      activesupport (>= 3.0.0)
     rack (1.6.9)
     rack-protection (1.5.3)
       rack
@@ -435,8 +428,6 @@ GEM
       trollop (~> 2.1)
     rdoc (4.3.0)
     redis (3.3.3)
-    request_store (1.4.1)
-      rack (>= 1.4)
     responders (2.4.0)
       actionpack (>= 4.2.0, < 5.3)
       railties (>= 4.2.0, < 5.3)
@@ -561,7 +552,6 @@ DEPENDENCIES
   carrierwave-imageoptimizer (~> 1.4)
   coffee-rails (~> 4.1.0)
   devise
-  draper
   figaro (~> 1.1, >= 1.1.1)
   fog (~> 1.38)
   font-awesome-rails (~> 4.7, >= 4.7.0.2)
@@ -584,7 +574,6 @@ DEPENDENCIES
   owlcarousel-rails!
   pg
   premailer-rails (~> 1.9, >= 1.9.5)
-  pundit
   rails (= 4.2.7.1)
   rails_12factor
   rails_autolink (~> 1.1, >= 1.1.6)

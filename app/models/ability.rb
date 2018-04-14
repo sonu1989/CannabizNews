@@ -9,6 +9,7 @@ class Ability
     elsif user.seller_user?
       can :manage, Store, :admin_user_id => user.id
       can :manage, AdminUser
+      cannot [:destroy, :create], Store
     end
 
     # NOTE: Everyone can read the page of Permission Deny

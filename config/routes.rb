@@ -2,6 +2,8 @@ Rails.application.routes.draw do
 
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
+  match "/admin/stores/:id/add_to_store" => 'admin/stores#add_to_store', via: :post
+  match "/admin/stores/:id/delete_from_store" => 'admin/stores#delete_from_store', via: :post
   #SIDEKIQ Routes
   require 'sidekiq/web'
   require 'sidekiq/cron/web'

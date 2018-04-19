@@ -1,0 +1,17 @@
+ <%= semantic_form_for [:admin, @store], :authenticity_token => true ,builder: ActiveAdmin::FormBuilder do |f| %>
+    <%= f.inputs "Details" do %>
+      <%= f.input :name %>
+      <%= f.action :submit, :label => (@store.id.present? ? 'Update Store' : 'Create Store') %>
+    <% end %>
+<% end %>
+<% if current_admin_user.seller_user? %>
+  <% if @store.products.any? %>
+    <h3>Owned Products</h3>
+    <%= render partial: 'products', locals: {products: @store.products} %>
+  <% else %>
+    <p>There is no product in this store! Please add from below products</p>
+  <% end %>
+
+  <h3>Products</h3>
+  <%= render partial: 'products', locals: {products: Product.all} %>
+<% end %>

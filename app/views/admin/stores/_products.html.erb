@@ -12,7 +12,7 @@
         <td class="col"><%=product.name %></td>
         <td class="col col-actions">
           <% unless @store.products.include?(product) %>
-            <%= link_to "Add to Store", add_to_store_admin_store_path(@store, product_id: product.id), class: "add", method: :post %>
+            <%= link_to "Add to Store", "javascript:void(0)", product_id: product.id, class: "add_to_store", method: :post %>
           <% else %>
             <%= link_to "Remove from Store", delete_from_store_admin_store_path(@store, product_id: product.id), class: "remove", method: :post %>
           <% end %>

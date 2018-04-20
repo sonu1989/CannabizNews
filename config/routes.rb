@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   ActiveAdmin.routes(self)
   match "/admin/stores/:id/add_to_store" => 'admin/stores#add_to_store', via: :post
   match "/admin/stores/:id/delete_from_store" => 'admin/stores#delete_from_store', via: :post
+  match "/admin/stores/:id/update_product_store" => 'admin/stores#update_product_store', via: :put
   #SIDEKIQ Routes
   require 'sidekiq/web'
   require 'sidekiq/cron/web'

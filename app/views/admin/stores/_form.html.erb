@@ -7,7 +7,7 @@
 <% if current_admin_user.seller_user? %>
   <% if @store.products.any? %>
     <h3>Owned Products</h3>
-    <%= render partial: 'products', locals: {products: @store.products} %>
+    <%= render partial: 'product_stores', locals: {product_stores: @store.product_stores} %>
   <% else %>
     <p>There is no product in this store! Please add from below products</p>
   <% end %>
@@ -15,3 +15,66 @@
   <h3>Products</h3>
   <%= render partial: 'products', locals: {products: Product.all} %>
 <% end %>
+<script type="text/javascript">
+  $(document).ready(function(){
+    
+    // Add selling price 
+    $(document).on('click', ".add_to_store", function(){
+      product_id = $(this).attr('product_id')
+      store_id = "<%=@store.id %>";
+      ActiveAdmin.modal_dialog("Enter Selling Price", {price: 'number'}, function(inputs) {
+        $.ajax({
+          type: "POST",
+          url: "/admin/stores/" + store_id +"/add_to_store",
+          data: {
+            product_id: product_id,
+            price: $("input[name='price']").last().val()
+          },
+          success: function(data) {
+            window.location.reload()
+            return false;
+          },
+          error: function(data) {
+            return false;
+          }
+        });
+      });
+    });
+
+    // Update selling price
+    $(document).on('click', ".edit_price", function(){
+      $(this).parent().parent().parent().find('span').hide();
+      $(this).parent().parent().parent().find('div').show();
+    });
+    $(document).on('click', ".edit_cancel", function(){
+      $(this).parent().hide();
+      $(this).parent().parent().find('span').show();
+    });
+
+    $(document).on('click', ".save", function(){
+      pstore_id = $(this).attr('pstore_id');
+      store_id = "<%=@store.id %>";
+      price = $(this).parent().find('input').val()
+      that = $(this);
+      console.log("pstore_id", pstore_id)
+      console.log("store_id", store_id)
+      console.log("price", price)
+      $.ajax({
+        type: "PUT",
+        url: "/admin/stores/"+store_id+"/update_product_store",
+        data: {
+          product_store_id: pstore_id,
+          price: price
+        },
+        success: function(data) {
+          window.location.reload()
+          return false;
+        },
+        error: function(data) {
+          return false;
+        }
+      });
+    });
+  });
+
+</script>

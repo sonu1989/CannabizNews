@@ -10,6 +10,12 @@ ActiveAdmin.register Store do
     actions
   end
 
+  action_item only: :index do
+    if current_admin_user.admin?
+      link_to 'Import Store', admin_stores_import_stores_path, class: 'import_csv'
+    end
+  end
+
   filter :name
 
   member_action :add_to_store, :method => :post do
@@ -31,5 +37,23 @@ ActiveAdmin.register Store do
     product_store = ProductStore.find_by(id: params[:product_store_id])
     product_store.update_attributes(price: params[:price])
     render :json=> {product_store: product_store.reload}
+  end
+
+  collection_action :import_stores do
+    if request.method == "POST"
+      if params[:store][:file_name].present?
+        file_data = params[:store][:file_name]
+        if file_data.respond_to?(:read)
+          stores = file_data.read
+          Store.save_store_from_csv(stores)
+          flash[:notice] = "Stores imported successfully."
+        elsif file_data.respond_to?(:path)
+          stores = File.read(file_data.path)
+          Store.save_store_from_csv(stores)
+          flash[:notice] = "Stores imported successfully."
+        end
+      end
+      redirect_to admin_stores_path
+    end
   end
 end

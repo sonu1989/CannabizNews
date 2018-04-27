@@ -10,6 +10,13 @@ ActiveAdmin.register Store do
     actions
   end
 
+  csv do
+    column :name
+    column :admin_user_id
+    column :created_at
+    column :updated_at
+  end
+
   action_item only: :index do
     if current_admin_user.admin?
       link_to 'Import Store', admin_stores_import_stores_path, class: 'import_csv'
